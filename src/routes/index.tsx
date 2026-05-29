@@ -41,7 +41,7 @@ function PublicLandingPage() {
   };
 
   return (
-    <div className="login-page" style={{ padding: 0 }}>
+    <div className="login-page" style={{ padding: 0, flexDirection: "column", justifyContent: "flex-start" }}>
       {/* Background with Overlays */}
       <div className="login-bg" style={{ zIndex: 0, opacity: 0.6 }}>
         <div className="login-orb login-orb-1" />
@@ -52,7 +52,7 @@ function PublicLandingPage() {
       <div style={{ position: "absolute", inset: 0, background: "rgba(0,0,0,0.6)", zIndex: 1 }}></div>
 
       {/* Header - discreto com link Admin */}
-      <header style={{ position: "relative", zIndex: 20, width: "100%", padding: "1.5rem 2rem", display: "flex", justifyContent: "flex-end" }}>
+      <header style={{ position: "relative", zIndex: 20, width: "100%", padding: "1.5rem 2rem", display: "flex", justifyContent: "flex-end", flexShrink: 0 }}>
         <button 
           onClick={() => nav({ to: "/login" })}
           style={{
@@ -68,7 +68,7 @@ function PublicLandingPage() {
       </header>
 
       {/* Main Content */}
-      <main style={{ position: "relative", zIndex: 20, flex: 1, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", width: "100%", maxWidth: "1000px", margin: "0 auto", padding: "0 1rem", marginTop: "-4rem" }}>
+      <main style={{ position: "relative", zIndex: 20, flex: 1, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", width: "100%", maxWidth: "1000px", margin: "0 auto", padding: "0 1rem", paddingBottom: "4rem" }}>
         
         <div style={{ textAlign: "center", marginBottom: "3rem" }}>
           <h1 style={{ fontSize: "clamp(2.5rem, 5vw, 4rem)", fontWeight: 900, textTransform: "uppercase", letterSpacing: "-0.02em", color: "white", textShadow: "0 4px 20px rgba(0,0,0,0.5)", lineHeight: 1.1, marginBottom: "1rem" }}>
