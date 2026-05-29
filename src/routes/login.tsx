@@ -27,12 +27,72 @@ function LoginPage() {
 
     await new Promise((r) => setTimeout(r, 600));
 
-    const ok = loginAdmin(username, password);
-    if (ok) {
+    // Tenta Admin
+    const okAdmin = loginAdmin(username, password);
+    if (okAdmin) {
       navigate({ to: "/admin" });
-    } else {
-      setError("Usuário ou senha incorretos.");
+      setLoading(false);
+      return;
     }
+
+    // Tenta Cliente (organizador)
+    try {
+      const raw = localStorage.getItem("gg_clients");
+      const clients = raw ? JSON.parse(raw) : [];
+      const client = clients.find(
+        (c: any) =>
+          c.username.toLowerCase() === username.toLowerCase() &&
+          c.password === password &&
+          c.status === "active"
+      );
+
+      if (client) {
+        // Encontrou cliente, criar sessão
+        const session = {
+          clientId: client.id,
+          clientName: client.name,
+          token: client.token,
+          expiresAt: Date.now() + 1000 * 60 * 60 * 24 * 7,
+        };
+        localStorage.setItem("gg_client_session", JSON.stringify(session));
+        window.dispatchEvent(new CustomEvent("gg-auth-change"));
+        navigate({ to: `/cliente/${client.token}` });
+        setLoading(false);
+        return;
+      }
+    } catch {
+      // ignore
+    }
+
+    // Tenta Cliente legado (tt_admin_tenants)
+    try {
+      const rawOld = localStorage.getItem("tt_admin_tenants");
+      const oldClients = rawOld ? JSON.parse(rawOld) : [];
+      const oldClient = oldClients.find(
+        (c: any) =>
+          c.username.toLowerCase() === username.toLowerCase() &&
+          c.password === password &&
+          c.status === "active"
+      );
+
+      if (oldClient) {
+        const session = {
+          clientId: oldClient.id,
+          clientName: oldClient.name,
+          token: oldClient.token,
+          expiresAt: Date.now() + 1000 * 60 * 60 * 24 * 7,
+        };
+        localStorage.setItem("gg_client_session", JSON.stringify(session));
+        window.dispatchEvent(new CustomEvent("gg-auth-change"));
+        navigate({ to: `/cliente/${oldClient.token}` });
+        setLoading(false);
+        return;
+      }
+    } catch {
+      // ignore
+    }
+
+    setError("Usuário ou senha incorretos.");
     setLoading(false);
   }
 
@@ -175,7 +235,7 @@ function LoginPage() {
         </form>
 
         <p className="login-hint">
-          Credenciais padrão: <strong>admin</strong> / <strong>admin123</strong>
+          Credenciais padrão: <strong>David</strong> / <strong>@Ngxy7341</strong>
         </p>
       </div>
     </div>

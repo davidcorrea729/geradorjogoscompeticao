@@ -29,8 +29,8 @@ export function getAdminCredentials(): AdminCredentials {
   } catch {
     // ignore
   }
-  // Credenciais padrão
-  return { username: "admin", password: "admin123" };
+  // Credenciais padrão solicitadas pelo usuário
+  return { username: "David", password: "@Ngxy7341" };
 }
 
 export function setAdminCredentials(credentials: AdminCredentials) {
