@@ -12,9 +12,14 @@ function PublicLandingPage() {
   const nav = useNavigate();
 
   useEffect(() => {
-    // Only active clients should be available for consultation
-    const allClients = getClients().filter(c => c.status === "active");
-    setClients(allClients);
+    const load = () => {
+      // Removemos temporariamente o filtro de status para garantir que apareçam
+      const allClients = getClients();
+      setClients(allClients);
+    };
+    load();
+    window.addEventListener("gg-clients-change", load);
+    return () => window.removeEventListener("gg-clients-change", load);
   }, []);
 
   const selectedClient = clients.find(c => c.token === selectedTenant);
