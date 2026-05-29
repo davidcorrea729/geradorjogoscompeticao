@@ -72,8 +72,35 @@ export function generatePassword(): string {
 export function getClients(): Client[] {
   try {
     const raw = localStorage.getItem(CLIENTS_KEY);
-    if (!raw) return [];
-    return JSON.parse(raw);
+    const clients: Client[] = raw ? JSON.parse(raw) : [];
+
+    // COMPATIBILITY: Pull from old tt_admin_tenants if it exists
+    const oldRaw = localStorage.getItem("tt_admin_tenants");
+    if (oldRaw) {
+      const oldClients = JSON.parse(oldRaw);
+      for (const oc of oldClients) {
+        if (!clients.some(c => c.token === oc.token)) {
+          clients.push({
+            id: oc.id || oc.token,
+            name: oc.name,
+            email: oc.email || "",
+            phone: oc.phone || "",
+            organization: oc.organization || "",
+            plan: oc.plan || "basic",
+            status: oc.status || "active",
+            username: oc.username || "",
+            password: oc.password || "",
+            token: oc.token,
+            createdAt: oc.createdAt || new Date().toISOString(),
+            notes: oc.notes || ""
+          });
+        }
+      }
+      // Save merged back to new storage
+      localStorage.setItem(CLIENTS_KEY, JSON.stringify(clients));
+    }
+
+    return clients;
   } catch {
     return [];
   }
