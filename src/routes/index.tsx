@@ -47,14 +47,17 @@ function PublicLandingPage() {
 
   return (
     <div className="login-page" style={{ padding: 0, flexDirection: "column", justifyContent: "flex-start" }}>
-      {/* Background with Overlays */}
-      <div className="login-bg" style={{ zIndex: 0, opacity: 0.6 }}>
-        <div className="login-orb login-orb-1" />
-        <div className="login-orb login-orb-2" />
-        <div className="login-orb login-orb-3" />
+      {/* Background Image & Overlays */}
+      <div style={{ position: "absolute", inset: 0, zIndex: 0 }}>
+        <div style={{ position: "absolute", inset: 0, background: "rgba(0,0,0,0.6)", zIndex: 10 }}></div>
+        <div 
+          style={{ position: "absolute", inset: 0, zIndex: 0, backgroundSize: "cover", backgroundPosition: "center", backgroundRepeat: "no-repeat", opacity: 0.6, backgroundImage: 'url("/hero-bg.png")' }}
+        ></div>
+        
+        {/* Blue geometric shapes */}
+        <div style={{ position: "absolute", top: 0, left: 0, width: "33.333%", height: "100%", background: "rgba(37,99,235,0.8)", transform: "skewX(-12deg) translateX(-50%)", zIndex: 10, mixBlendMode: "multiply" }}></div>
+        <div style={{ position: "absolute", bottom: 0, right: 0, width: "25%", height: "120%", background: "rgba(37,99,235,0.8)", transform: "skewX(-12deg) translateX(50%) translateY(40px)", zIndex: 10, mixBlendMode: "multiply" }}></div>
       </div>
-
-      <div style={{ position: "absolute", inset: 0, background: "rgba(0,0,0,0.6)", zIndex: 1 }}></div>
 
       {/* Header - discreto com link Admin */}
       <header style={{ position: "relative", zIndex: 20, width: "100%", padding: "1.5rem 2rem", display: "flex", justifyContent: "flex-end", flexShrink: 0 }}>
